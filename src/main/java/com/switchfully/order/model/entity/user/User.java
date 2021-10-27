@@ -1,16 +1,17 @@
 package com.switchfully.order.model.entity.user;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.FieldDefaults;
-import java.util.UUID;
 
 @Data
+@Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @EqualsAndHashCode(of = { "id" })
 public class User {
-    String id = UUID.randomUUID().toString();
+    String id;
     String firstName;
     String lastName;
     String email;
