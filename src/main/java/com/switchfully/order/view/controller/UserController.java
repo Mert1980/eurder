@@ -21,7 +21,7 @@ public class UserController {
 
     @PostMapping(consumes = "application/json", produces = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
-    public CreateCustomerResponse createNewCustomer(@RequestBody CreateCustomerRequest createCustomerRequest){
+    public CreateCustomerResponse createNewCustomer(@RequestBody CreateCustomerRequest createCustomerRequest) {
         return userService.createCustomerAccount(createCustomerRequest);
     }
 }

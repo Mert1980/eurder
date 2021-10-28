@@ -1,5 +1,6 @@
 package com.switchfully.order.view.controller;
 
+import com.switchfully.order.exception.AuthorizationException;
 import com.switchfully.order.model.dto.CreateCustomerRequest;
 import com.switchfully.order.model.dto.CreateCustomerResponse;
 import com.switchfully.order.model.entity.user.Address;
@@ -8,9 +9,9 @@ import com.switchfully.order.model.entity.user.Phone;
 import com.switchfully.order.model.entity.user.UserRole;
 import com.switchfully.order.repository.UserRepository;
 import com.switchfully.order.service.UserService;
-import org.assertj.core.api.Assertions;
-import static org.assertj.core.api.Assertions.assertThat;
+
 import static org.junit.jupiter.api.Assertions.*;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,13 +31,13 @@ class UserControllerTest {
     }
 
     @Test
-    void givenCreateCustomerDto_whenPostRequest_ThenReturnCreateCustomerResponse(){
+    void givenCreateCustomerDto_whenPostRequestWithCustomerRole_ThenReturnCreateCustomerResponse() {
         // GIVEN
         CreateCustomerRequest createCustomerRequest = CreateCustomerRequest.builder()
                 .firstName("Mert")
                 .lastName("Demirok")
                 .email("mert@gmail.com")
-                .address(new Address("Street","10", new City(3000, "Leuven")))
+                .address(new Address("Street", "10", new City(3000, "Leuven")))
                 .phone(new Phone(32, 1234567))
                 .role(UserRole.CUSTOMER)
                 .build();
@@ -55,5 +56,21 @@ class UserControllerTest {
         assertEquals("Leuven", createCustomerResponse.getAddress().getCity().getName());
         assertEquals(32, createCustomerResponse.getPhone().getCountryCode());
         assertEquals(1234567, createCustomerResponse.getPhone().getNationalNumber());
+    }
+
+    @Test
+    void givenCreateCustomerDto_whenPostRequestWithAdminRole_ThenThrowAuthorizationException() {
+        // GIVEN
+        CreateCustomerRequest createCustomerRequest = CreateCustomerRequest.builder()
+                .firstName("Mert")
+                .lastName("Demirok")
+                .email("mert@gmail.com")
+                .address(new Address("Street", "10", new City(3000, "Leuven")))
+                .phone(new Phone(32, 1234567))
+                .role(UserRole.ADMIN)
+                .build();
+
+        //THEN
+        assertThrows(AuthorizationException.class, () -> userService.createCustomerAccount(createCustomerRequest));
     }
 }
