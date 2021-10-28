@@ -17,8 +17,8 @@ import javax.security.auth.message.AuthException;
 @Service
 public class UserService {
 
-    final UserMapper userMapper;
-    final UserRepository userRepository;
+    private final UserMapper userMapper;
+    private final UserRepository userRepository;
     private final Logger logger = LoggerFactory.getLogger(UserService.class);
 
     @Autowired

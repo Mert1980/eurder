@@ -7,7 +7,6 @@ import com.switchfully.order.model.entity.user.Address;
 import com.switchfully.order.model.entity.user.City;
 import com.switchfully.order.model.entity.user.Phone;
 import com.switchfully.order.model.entity.user.UserRole;
-import com.switchfully.order.repository.UserRepository;
 import com.switchfully.order.service.UserService;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -22,12 +21,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 class UserControllerTest {
 
     private final UserService userService;
-    private final UserRepository userRepository;
 
     @Autowired
-    UserControllerTest(UserService userService, UserRepository userRepository) {
+    UserControllerTest(UserService userService) {
         this.userService = userService;
-        this.userRepository = userRepository;
     }
 
     @Test
@@ -43,19 +40,19 @@ class UserControllerTest {
                 .build();
 
         //WHEN
-        CreateCustomerResponse createCustomerResponse = userService.createCustomerAccount(createCustomerRequest);
+        CreateCustomerResponse actual = userService.createCustomerAccount(createCustomerRequest);
 
         //THEN
-        assertNotNull(createCustomerResponse.getId());
-        assertEquals("Mert", createCustomerResponse.getFirstName());
-        assertEquals("Demirok", createCustomerResponse.getLastName());
-        assertEquals("mert@gmail.com", createCustomerResponse.getEmail());
-        assertEquals("Street", createCustomerResponse.getAddress().getStreet());
-        assertEquals("10", createCustomerResponse.getAddress().getHouseNumber());
-        assertEquals(3000, createCustomerResponse.getAddress().getCity().getPostalCode());
-        assertEquals("Leuven", createCustomerResponse.getAddress().getCity().getName());
-        assertEquals(32, createCustomerResponse.getPhone().getCountryCode());
-        assertEquals(1234567, createCustomerResponse.getPhone().getNationalNumber());
+        assertNotNull(actual.getId());
+        assertEquals("Mert", actual.getFirstName());
+        assertEquals("Demirok", actual.getLastName());
+        assertEquals("mert@gmail.com", actual.getEmail());
+        assertEquals("Street", actual.getAddress().getStreet());
+        assertEquals("10", actual.getAddress().getHouseNumber());
+        assertEquals(3000, actual.getAddress().getCity().getPostalCode());
+        assertEquals("Leuven", actual.getAddress().getCity().getName());
+        assertEquals(32, actual.getPhone().getCountryCode());
+        assertEquals(1234567,actual.getPhone().getNationalNumber());
     }
 
     @Test
