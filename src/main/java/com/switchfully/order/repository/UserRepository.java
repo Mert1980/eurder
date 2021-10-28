@@ -1,6 +1,6 @@
 package com.switchfully.order.repository;
 
-import com.switchfully.order.model.entity.user.User;
+import com.switchfully.order.model.entity.user.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,10 +19,23 @@ public class UserRepository {
 
     public UserRepository() {
         users = new HashMap<>();
+        users.put("85acdc9b-13a3-412f-94de-77f26fcf4f9c",
+                User.builder()
+                        .firstName("Mert")
+                        .lastName("Demirok")
+                        .email("mert@gmail.com")
+                        .address(new Address("Street", "10", new City(3000, "Leuven")))
+                        .phone(new Phone(32, 1234567))
+                        .role(UserRole.CUSTOMER)
+                        .build());
     }
 
     public User createCustomerAccount(User user){
         User newUser = users.put(user.getId(), user);
         return newUser;
+    }
+
+    public User getCustomer(String customerId){
+        return users.get(customerId);
     }
 }

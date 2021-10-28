@@ -28,16 +28,20 @@ public class UserService {
     }
 
     public CreateCustomerResponse createCustomerAccount(CreateCustomerRequest createCustomerRequest){
-        assertUserIsACustomer(createCustomerRequest.getRole());
         User user = userMapper.toUser(createCustomerRequest);
         userRepository.createCustomerAccount(user);
         return userMapper.toCreateCustomerResponse(user);
     }
 
-    private void assertUserIsACustomer(UserRole role) {
-        if(role != UserRole.CUSTOMER){
+    public User getCustomer(String customerId){
+        return userRepository.getCustomer(customerId);
+    }
+
+    public void assertAuthorizedCustomer(String userId) {
+        if(!userRepository.getCustomer(userId).getRole().name().equalsIgnoreCase("CUSTOMER")){
             logger.error("Unauthorized request to create a customer.");
             throw new AuthorizationException("You are not authorized as a customer.");
         }
     }
+
 }

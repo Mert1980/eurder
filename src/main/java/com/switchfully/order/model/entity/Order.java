@@ -16,8 +16,7 @@ import java.util.UUID;
 public class Order {
 
     String id = UUID.randomUUID().toString();
-    HashMap<String, Integer> amountOfItemsByItemId = new HashMap<>();
+    HashMap<String, Integer> amountOfItemsByItemId = new HashMap<>(); // itemId, amountOfItems
     Price totalPrice;
     User customer;
-    LocalDate shippingDate;
 }
