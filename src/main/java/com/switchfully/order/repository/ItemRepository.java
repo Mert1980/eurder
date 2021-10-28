@@ -1,6 +1,6 @@
 package com.switchfully.order.repository;
 
-import com.switchfully.order.model.entity.user.User;
+import com.switchfully.order.model.entity.item.Item;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,16 +13,16 @@ import java.util.HashMap;
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class UserRepository {
+public class ItemRepository {
 
-    final HashMap<String, User> users;
+    final HashMap<String, Item> items;
 
-    public UserRepository() {
-        users = new HashMap<>();
+    public ItemRepository() {
+        items = new HashMap<>();
     }
 
-    public User createCustomerAccount(User user){
-        User newUser = users.put(user.getId(), user);
-        return newUser;
+    public Item addItem(Item item){
+        Item newItem = items.put(item.getId(), item);
+        return newItem;
     }
 }
