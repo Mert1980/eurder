@@ -1,19 +1,18 @@
 package com.switchfully.order.model.dto;
 
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
+
+import java.util.ArrayList;
 import java.util.List;
 
-@Getter
-@Setter
+@Data
+@RequiredArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CreateOrderRequest {
 
-    List<ItemGroupRequest> itemGroupRequestList;
+    final List<CreateItemGroupRequest> itemGroups = new ArrayList<>();
 
 
 }

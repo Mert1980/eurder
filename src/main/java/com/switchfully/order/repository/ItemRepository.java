@@ -35,4 +35,8 @@ public class ItemRepository {
         Item newItem = items.put(item.getId(), item);
         return newItem;
     }
+
+    public Item getItemById(String itemId) {
+        return items.get(itemId);
+    }
 }

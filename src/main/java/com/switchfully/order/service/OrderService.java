@@ -1,8 +1,11 @@
 package com.switchfully.order.service;
 
+import com.switchfully.order.model.dto.CreateItemGroupRequest;
 import com.switchfully.order.model.dto.CreateOrderRequest;
 import com.switchfully.order.model.dto.CreateOrderResponse;
 import com.switchfully.order.model.entity.Order;
+import com.switchfully.order.model.entity.item.Currency;
+import com.switchfully.order.model.entity.item.Price;
 import com.switchfully.order.repository.OrderRepository;
 import com.switchfully.order.service.mapper.OrderMapper;
 import lombok.AccessLevel;
@@ -12,7 +15,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
+import java.math.BigDecimal;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -25,16 +29,27 @@ public class OrderService {
     final ItemService itemService;
     final Logger logger = LoggerFactory.getLogger(OrderService.class);
 
-    public CreateOrderResponse createOrder(CreateOrderRequest createOrderRequest, String userId){
+    public CreateOrderResponse createOrder(List<CreateItemGroupRequest> createItemGroupRequests, String userId){
         userService.assertAuthorizedCustomer(userId);
 
-        Order newOrder = orderMapper.toOrder(createOrderRequest);
+        Order newOrder = orderMapper.toOrder(createItemGroupRequests);
+
         newOrder.setCustomer(userService.getCustomer(userId));
+        newOrder.setTotalPrice(calculateTotalPrice(createItemGroupRequests));
+
+        System.out.println(newOrder);
 
         orderRepository.createOrder(newOrder);
+        logger.info("New order created. Order Id: " + newOrder.getId());
         return orderMapper.toCreateOrderResponse(newOrder);
     }
 
+    private Price calculateTotalPrice(List<CreateItemGroupRequest> createItemGroupRequests) {
 
+       double totalPrice = createItemGroupRequests.stream()
+                    .mapToDouble(itemGroup -> itemService.getItemById(itemGroup.getItemId()).getPrice().getAmount().doubleValue() * itemGroup.getAmountOfItemsOrdered())
+                    .sum();
 
+        return new Price(Currency.EUR, BigDecimal.valueOf(totalPrice));
+    }
 }

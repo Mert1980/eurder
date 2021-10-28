@@ -2,8 +2,7 @@ package com.switchfully.order.service;
 
 import com.switchfully.order.model.dto.CreateItemRequest;
 import com.switchfully.order.model.dto.CreateItemResponse;
-import com.switchfully.order.model.dto.CreateOrderRequest;
-import com.switchfully.order.model.dto.ItemGroupRequest;
+import com.switchfully.order.model.dto.CreateItemGroupRequest;
 import com.switchfully.order.model.entity.item.Item;
 import com.switchfully.order.repository.ItemRepository;
 import com.switchfully.order.service.mapper.ItemMapper;
@@ -30,9 +29,13 @@ public class ItemService {
         return itemMapper.toItemResponse(newItem);
     }
 
-    public boolean isStockAvailable(ItemGroupRequest itemGroupRequest) {
+    public boolean isStockAvailable(CreateItemGroupRequest createItemGroupRequest) {
         return itemRepository.getItems().values().stream()
-                .filter(itemInStock -> itemInStock.getId().equals(itemGroupRequest.getItemId()))
-                .allMatch(item -> item.getAmount() >= itemGroupRequest.getAmountOfItemsOrdered());
+                .filter(itemInStock -> itemInStock.getId().equals(createItemGroupRequest.getItemId()))
+                .allMatch(item -> item.getAmount() >= createItemGroupRequest.getAmountOfItemsOrdered());
+    }
+
+    public Item getItemById(String itemId){
+        return itemRepository.getItemById(itemId);
     }
 }

@@ -16,7 +16,7 @@ import java.util.List;
 public class CreateOrderResponse {
 
     String id;
-    List<ItemGroupResponse> itemGroupResponseList;
+    List<CreateItemGroupResponse> itemGroups;
     String customerId;
     Price price;
 }

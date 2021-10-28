@@ -6,13 +6,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
 
-import java.util.Map;
-
 @Data
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class ItemGroupRequest {
+public class CreateItemGroupRequest {
 
     String itemId;
     int amountOfItemsOrdered;
