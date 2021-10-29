@@ -13,6 +13,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -35,6 +38,11 @@ public class ItemService {
         return itemRepository.getItems().values().stream()
                 .filter(itemInStock -> itemInStock.getId().equals(createItemGroupRequest.getItemId()))
                 .allMatch(item -> item.getAmount() >= createItemGroupRequest.getAmount());
+    }
+
+    public void adjustAmountOfItemsInStock(HashMap<String, Integer> orderedItemGroups){
+        orderedItemGroups.entrySet()
+                .forEach(itemGroup -> itemRepository.adjustAmountOfItemInStock(itemGroup.getKey(), itemGroup.getValue()));
     }
 
     public Item getItemById(String itemId){

@@ -1,5 +1,6 @@
 package com.switchfully.order.repository;
 
+import com.switchfully.order.exception.NotAvailableStockException;
 import com.switchfully.order.model.entity.item.Currency;
 import com.switchfully.order.model.entity.item.Item;
 import com.switchfully.order.model.entity.item.Price;
@@ -38,5 +39,16 @@ public class ItemRepository {
 
     public Item getItemById(String itemId) {
         return items.get(itemId);
+    }
+
+    public void adjustAmountOfItemInStock(String itemId, int amount){
+        if(amount >= getItemById(itemId).getAmount()){
+            getItemById(itemId).setAmount(amount);
+            System.out.println(getItemById(itemId).getAmount());
+        } else {
+            throw new NotAvailableStockException(getItemById(itemId).getName() +
+                    " has not available stock. Requested:" + amount +
+                    " Available:" + getItemById(itemId).getAmount());
+        }
     }
 }

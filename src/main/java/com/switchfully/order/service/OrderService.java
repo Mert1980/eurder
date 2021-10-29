@@ -39,6 +39,7 @@ public class OrderService {
         logger.debug("Created order: " + newOrder);
 
         orderRepository.createOrder(newOrder);
+        itemService.adjustAmountOfItemsInStock(newOrder.getItemGroups());
         logger.info("New order created. Order Id: " + newOrder.getId());
         return orderMapper.toCreateOrderResponse(newOrder);
     }
