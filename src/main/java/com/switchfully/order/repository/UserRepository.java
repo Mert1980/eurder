@@ -9,6 +9,7 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
+import java.util.Optional;
 
 @Repository
 @Getter
@@ -50,5 +51,11 @@ public class UserRepository {
     public User getCustomer(String customerId){
         if(!users.containsKey(customerId)) throw new AuthorizationException("You are not authorized for this operation.");
         return users.get(customerId);
+    }
+
+    public Optional<User> getCustomerByEmail(String email) {
+        return users.values().stream()
+                .filter(user -> user.getEmail().equals(email))
+                .findFirst();
     }
 }
