@@ -43,7 +43,7 @@ public class ItemRepository {
 
     public void adjustAmountOfItemInStock(String itemId, int amount){
         if(amount >= getItemById(itemId).getAmount()){
-            getItemById(itemId).setAmount(amount);
+            getItemById(itemId).setAmount(getItemById(itemId).getAmount() - amount);
             System.out.println(getItemById(itemId).getAmount());
         } else {
             throw new NotAvailableStockException(getItemById(itemId).getName() +
