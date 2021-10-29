@@ -28,7 +28,7 @@ class UserControllerTest {
     }
 
     @Test
-    void givenCreateCustomerDto_whenPostRequestWithCustomerRole_ThenReturnCreateCustomerResponse() {
+    void givenCreateCustomerDtoByUnregisteredCustomer_whenCreateCustomerRequest_ThenReturnCreateCustomerResponse() {
         // GIVEN
         CreateCustomerRequest createCustomerRequest = CreateCustomerRequest.builder()
                 .firstName("Mert")
@@ -53,21 +53,6 @@ class UserControllerTest {
         assertEquals("Leuven", actual.getAddress().getCity().getName());
         assertEquals(32, actual.getPhone().getCountryCode());
         assertEquals(1234567,actual.getPhone().getNationalNumber());
-    }
-
-    @Test
-    void givenCreateCustomerDto_whenPostRequestWithAdminRole_ThenThrowAuthorizationException() {
-        // GIVEN
-        CreateCustomerRequest createCustomerRequest = CreateCustomerRequest.builder()
-                .firstName("Mert")
-                .lastName("Demirok")
-                .email("mert@gmail.com")
-                .address(new Address("Street", "10", new City(3000, "Leuven")))
-                .phone(new Phone(32, 1234567))
-                .role(UserRole.ADMIN)
-                .build();
-
-        //THEN
-        assertThrows(AuthorizationException.class, () -> userService.createCustomerAccount(createCustomerRequest));
+        assertEquals("CUSTOMER",actual.getRole().name());
     }
 }
