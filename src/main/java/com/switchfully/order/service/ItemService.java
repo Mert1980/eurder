@@ -32,7 +32,7 @@ public class ItemService {
     public boolean isStockAvailable(CreateItemGroupRequest createItemGroupRequest) {
         return itemRepository.getItems().values().stream()
                 .filter(itemInStock -> itemInStock.getId().equals(createItemGroupRequest.getItemId()))
-                .allMatch(item -> item.getAmount() >= createItemGroupRequest.getAmountOfItemsOrdered());
+                .allMatch(item -> item.getAmount() >= createItemGroupRequest.getAmount());
     }
 
     public Item getItemById(String itemId){

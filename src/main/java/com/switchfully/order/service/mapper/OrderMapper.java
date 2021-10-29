@@ -1,6 +1,5 @@
 package com.switchfully.order.service.mapper;
 
-import com.switchfully.order.model.dto.CreateOrderRequest;
 import com.switchfully.order.model.dto.CreateOrderResponse;
 import com.switchfully.order.model.dto.CreateItemGroupRequest;
 import com.switchfully.order.model.dto.CreateItemGroupResponse;
@@ -27,7 +26,7 @@ public class OrderMapper {
 
         Order order = new Order();
         createItemGroupRequests
-                .forEach(request -> order.getItemGroups().put(request.getItemId(), request.getAmountOfItemsOrdered()));
+                .forEach(request -> order.getItemGroups().put(request.getItemId(), request.getAmount()));
 
         return order;
     }
@@ -49,7 +48,7 @@ public class OrderMapper {
     private CreateItemGroupResponse toItemGroupResponse(CreateItemGroupRequest createItemGroupRequest) {
         return CreateItemGroupResponse.builder()
                 .itemId(createItemGroupRequest.getItemId())
-                .amount(createItemGroupRequest.getAmountOfItemsOrdered())
+                .amount(createItemGroupRequest.getAmount())
                 .shippingDate(itemService.isStockAvailable(createItemGroupRequest) ? LocalDate.now().plusDays(1) : LocalDate.now().plusDays(7))
                 .build();
     }

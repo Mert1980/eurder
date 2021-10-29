@@ -13,5 +13,5 @@ import lombok.experimental.FieldDefaults;
 public class CreateItemGroupRequest {
 
     String itemId;
-    int amountOfItemsOrdered;
+    int amount;
 }

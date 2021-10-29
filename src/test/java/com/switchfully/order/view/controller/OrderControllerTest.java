@@ -26,29 +26,28 @@ class OrderControllerTest {
         this.orderService = orderService;
     }
 
-   /* @Test
+    @Test
     void givenCreateOrderRequest_whenPostRequestWithCustomerRole_ThenReturnCreateOrderResponse() {
         // GIVEN
-        List<ItemGroupRequest> itemGroupRequests = List.of(new ItemGroupRequest("d47ffb0f-7779-43ca-8606-f5d6c7097f1d", 2),
-                new ItemGroupRequest("d47ffb0f-7779-43ca-8606-f5d6c7097f1e", 1));
+        List<CreateItemGroupRequest> itemGroupRequests = List.of(new CreateItemGroupRequest("d47ffb0f-7779-43ca-8606-f5d6c7097f1d", 2),
+                new CreateItemGroupRequest("d47ffb0f-7779-43ca-8606-f5d6c7097f1e", 1));
 
-        CreateOrderRequest createOrderRequest = CreateOrderRequest.builder()
-                .itemGroups(itemGroupRequests)
-                .build();
+        CreateOrderRequest createOrderRequest = new CreateOrderRequest();
+        itemGroupRequests.forEach(request -> createOrderRequest.getItemGroups().add(request));
 
-        List<ItemGroupResponse> expectedItemGroupResponse = List.of(
-                new ItemGroupResponse("d47ffb0f-7779-43ca-8606-f5d6c7097f1d", 2, LocalDate.now().plusDays(1)),
-                new ItemGroupResponse("d47ffb0f-7779-43ca-8606-f5d6c7097f1e", 1, LocalDate.now().plusDays(1)));
+
+        List<CreateItemGroupResponse> expectedItemGroupResponse = List.of(
+                new CreateItemGroupResponse("d47ffb0f-7779-43ca-8606-f5d6c7097f1d", 2, LocalDate.now().plusDays(1)),
+                new CreateItemGroupResponse("d47ffb0f-7779-43ca-8606-f5d6c7097f1e", 1, LocalDate.now().plusDays(1)));
 
         //WHEN
-        CreateOrderResponse actual = orderService.createOrder(createOrderRequest, DEFAULT_CUSTOMER_ID);
-        System.out.println("length of actual CreateOrderResponse: " + actual.getItemGroupResponseList().size());
+        CreateOrderResponse actual = orderService.createOrder(itemGroupRequests, DEFAULT_CUSTOMER_ID);
 
         //THEN
         assertNotNull(actual.getId());
         assertNotNull(actual.getCustomerId());
-        assertThat(expectedItemGroupResponse).containsExactlyInAnyOrderElementsOf(actual.getItemGroupResponseList());
+        assertThat(expectedItemGroupResponse).containsExactlyInAnyOrderElementsOf(actual.getItemGroups());
         assertEquals(401.5, actual.getPrice().getAmount().doubleValue());
 
-    }*/
+    }
 }

@@ -1,7 +1,6 @@
 package com.switchfully.order.service;
 
 import com.switchfully.order.model.dto.CreateItemGroupRequest;
-import com.switchfully.order.model.dto.CreateOrderRequest;
 import com.switchfully.order.model.dto.CreateOrderResponse;
 import com.switchfully.order.model.entity.Order;
 import com.switchfully.order.model.entity.item.Currency;
@@ -37,7 +36,7 @@ public class OrderService {
         newOrder.setCustomer(userService.getCustomer(userId));
         newOrder.setTotalPrice(calculateTotalPrice(createItemGroupRequests));
 
-        System.out.println(newOrder);
+        logger.debug("Created order: " + newOrder);
 
         orderRepository.createOrder(newOrder);
         logger.info("New order created. Order Id: " + newOrder.getId());
@@ -47,7 +46,7 @@ public class OrderService {
     private Price calculateTotalPrice(List<CreateItemGroupRequest> createItemGroupRequests) {
 
        double totalPrice = createItemGroupRequests.stream()
-                    .mapToDouble(itemGroup -> itemService.getItemById(itemGroup.getItemId()).getPrice().getAmount().doubleValue() * itemGroup.getAmountOfItemsOrdered())
+                    .mapToDouble(itemGroup -> itemService.getItemById(itemGroup.getItemId()).getPrice().getAmount().doubleValue() * itemGroup.getAmount())
                     .sum();
 
         return new Price(Currency.EUR, BigDecimal.valueOf(totalPrice));
