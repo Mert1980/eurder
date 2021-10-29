@@ -42,12 +42,12 @@ public class ItemRepository {
     }
 
     public void adjustAmountOfItemInStock(String itemId, int amount){
-        if(amount >= getItemById(itemId).getAmount()){
+        if(getItemById(itemId).getAmount() >= amount){
             getItemById(itemId).setAmount(getItemById(itemId).getAmount() - amount);
             System.out.println(getItemById(itemId).getAmount());
         } else {
             throw new NotAvailableStockException(getItemById(itemId).getName() +
-                    " has not available stock. Requested:" + amount +
+                    " is not available in stock. Requested:" + amount +
                     " Available:" + getItemById(itemId).getAmount());
         }
     }
