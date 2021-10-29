@@ -1,4 +1,6 @@
-package com.switchfully.order.view.controller;
+package com.switchfully.order.service;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 import com.switchfully.order.model.dto.*;
 import com.switchfully.order.service.OrderService;
@@ -15,14 +17,14 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
-@DisplayName("Order Controller Test")
-class OrderControllerTest {
+@DisplayName("Order Service Test")
+class OrderServiceTest {
 
     private final OrderService orderService;
     private static final String DEFAULT_CUSTOMER_ID = "85acdc9b-13a3-412f-94de-77f26fcf4f9c";
 
     @Autowired
-    OrderControllerTest(OrderService orderService) {
+    OrderServiceTest(OrderService orderService) {
         this.orderService = orderService;
     }
 

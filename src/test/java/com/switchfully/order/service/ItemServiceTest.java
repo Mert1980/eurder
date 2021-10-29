@@ -1,10 +1,9 @@
-package com.switchfully.order.view.controller;
+package com.switchfully.order.service;
 
 import com.switchfully.order.model.dto.CreateItemRequest;
 import com.switchfully.order.model.dto.CreateItemResponse;
 import com.switchfully.order.model.entity.item.Currency;
 import com.switchfully.order.model.entity.item.UrgencyIndicator;
-import com.switchfully.order.service.ItemService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,19 +12,19 @@ import org.springframework.boot.test.context.SpringBootTest;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-@DisplayName("Item Controller Test")
-class ItemControllerTest {
+@DisplayName("Item Service Test")
+class ItemServiceTest {
 
     private final ItemService itemService;
     private static final String DEFAULT_ADMIN_ID = "85acdc9b-13a3-412f-94de-77f26fcf4f8f";
 
     @Autowired
-    ItemControllerTest(ItemService itemService) {
+    ItemServiceTest(ItemService itemService) {
         this.itemService = itemService;
     }
 
     @Test
-    void givenCreateItemRequest_whenPostRequestWithAdminRole_ThenReturnCreateItemResponse() {
+    void givenCreateItemRequest_whenAddItem_ThenReturnCreateItemResponse() {
         // GIVEN
         CreateItemRequest createItemRequest = CreateItemRequest.builder()
                 .name("Grill")

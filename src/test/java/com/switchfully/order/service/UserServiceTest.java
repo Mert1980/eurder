@@ -1,13 +1,11 @@
-package com.switchfully.order.view.controller;
+package com.switchfully.order.service;
 
-import com.switchfully.order.exception.AuthorizationException;
 import com.switchfully.order.model.dto.CreateCustomerRequest;
 import com.switchfully.order.model.dto.CreateCustomerResponse;
 import com.switchfully.order.model.entity.user.Address;
 import com.switchfully.order.model.entity.user.City;
 import com.switchfully.order.model.entity.user.Phone;
 import com.switchfully.order.model.entity.user.UserRole;
-import com.switchfully.order.service.UserService;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -18,12 +16,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 @DisplayName("User Controller Test")
-class UserControllerTest {
+class UserServiceTest {
 
     private final UserService userService;
 
     @Autowired
-    UserControllerTest(UserService userService) {
+    UserServiceTest(UserService userService) {
         this.userService = userService;
     }
 

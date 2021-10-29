@@ -1,9 +1,7 @@
 package com.switchfully.order.view.controller;
 
 import com.sun.istack.NotNull;
-import com.switchfully.order.exception.AuthorizationException;
 import com.switchfully.order.model.dto.*;
-import com.switchfully.order.model.entity.user.UserRole;
 import com.switchfully.order.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
