@@ -25,7 +25,7 @@ public class ItemController {
     @PostMapping(consumes = "application/json", produces = "application/json")
     public ResponseEntity<CreateItemResponse> createNewItem(@RequestBody @NotNull CreateItemRequest request,
                                                             @RequestHeader(value = "id") String userId) {
-
+        logger.info("createNewItem method is called in Customer Controller. User Id: " + userId);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(itemService.addItem(request, userId));
     }
