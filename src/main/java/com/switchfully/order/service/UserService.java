@@ -44,4 +44,10 @@ public class UserService {
         }
     }
 
+    public void assertAuthorizedAdmin(String userId) {
+        if(!userRepository.getCustomer(userId).getRole().name().equalsIgnoreCase("ADMIN")){
+            logger.error("Unauthorized request to create a customer.");
+            throw new AuthorizationException("You are not authorized as an admin.");
+        }
+    }
 }

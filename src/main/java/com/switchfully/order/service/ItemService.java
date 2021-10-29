@@ -19,10 +19,12 @@ import org.springframework.stereotype.Service;
 public class ItemService {
 
     final ItemRepository itemRepository;
+    final UserService userService;
     final ItemMapper itemMapper;
     final Logger logger = LoggerFactory.getLogger(ItemService.class);
 
-    public CreateItemResponse addItem(CreateItemRequest createItemRequest){
+    public CreateItemResponse addItem(CreateItemRequest createItemRequest, String userId){
+        userService.assertAuthorizedAdmin(userId);
         Item newItem = itemMapper.toItem(createItemRequest);
         itemRepository.addItem(newItem);
         logger.info("New item is created. Item ID: " + newItem.getId());

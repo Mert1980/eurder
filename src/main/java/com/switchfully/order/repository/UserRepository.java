@@ -30,6 +30,16 @@ public class UserRepository {
                         .phone(new Phone(32, 1234567))
                         .role(UserRole.CUSTOMER)
                         .build());
+        users.put("85acdc9b-13a3-412f-94de-77f26fcf4f8f",
+                User.builder()
+                        .id("85acdc9b-13a3-412f-94de-77f26fcf4f8f")
+                        .firstName("John")
+                        .lastName("Doe")
+                        .email("admin@gmail.com")
+                        .address(new Address("Street", "10", new City(3000, "Leuven")))
+                        .phone(new Phone(32, 1234567))
+                        .role(UserRole.ADMIN)
+                        .build());
     }
 
     public User createCustomerAccount(User user){

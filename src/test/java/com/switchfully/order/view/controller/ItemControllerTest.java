@@ -17,6 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class ItemControllerTest {
 
     private final ItemService itemService;
+    private static final String DEFAULT_ADMIN_ID = "85acdc9b-13a3-412f-94de-77f26fcf4f8f";
 
     @Autowired
     ItemControllerTest(ItemService itemService) {
@@ -36,7 +37,7 @@ class ItemControllerTest {
                 .build();
 
         //WHEN
-        CreateItemResponse actual = itemService.addItem(createItemRequest);
+        CreateItemResponse actual = itemService.addItem(createItemRequest, DEFAULT_ADMIN_ID);
 
         //THEN
         assertNotNull(actual.getId());

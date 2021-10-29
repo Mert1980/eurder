@@ -22,16 +22,11 @@ public class ItemController {
     private final ItemService itemService;
     private final Logger logger = LoggerFactory.getLogger(ItemController.class);
 
-    @PostMapping
+    @PostMapping(consumes = "application/json", produces = "application/json")
     public ResponseEntity<CreateItemResponse> createNewItem(@RequestBody @NotNull CreateItemRequest request,
-                                                            @RequestHeader(value = "role") String userRole) {
-
-        if (!userRole.equalsIgnoreCase(UserRole.ADMIN.name())) {
-            logger.error("Unauthorized request to create a new item.");
-            throw new AuthorizationException("You are not authorized as admin");
-        }
+                                                            @RequestHeader(value = "id") String userId) {
 
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(itemService.addItem(request));
+                .body(itemService.addItem(request, userId));
     }
 }
