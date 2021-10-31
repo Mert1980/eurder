@@ -39,7 +39,7 @@ class OrderServiceTest {
     }
 
     @BeforeEach
-    void before(){
+    void beforeEach(){
         itemGroupRequests = List.of(new CreateItemGroupRequest("d47ffb0f-7779-43ca-8606-f5d6c7097f1d", 2),
                 new CreateItemGroupRequest("d47ffb0f-7779-43ca-8606-f5d6c7097f1e", 1));
 
