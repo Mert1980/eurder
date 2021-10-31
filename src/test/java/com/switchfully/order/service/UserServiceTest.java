@@ -29,6 +29,7 @@ class UserServiceTest {
     void givenCreateCustomerDtoByUnregisteredCustomer_whenCreateCustomerRequest_ThenReturnCreateCustomerResponse() {
         // GIVEN
         CreateCustomerRequest createCustomerRequest = CreateCustomerRequest.builder()
+                .password("password")
                 .firstName("Mert")
                 .lastName("Demirok")
                 .email("mert@gmail.com")
