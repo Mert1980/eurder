@@ -32,6 +32,10 @@ public class ItemRepository {
                         new Price(Currency.EUR, BigDecimal.valueOf(200.5)), 1, UrgencyIndicator.STOCK_LOW));
     }
 
+    public HashMap<String, Item> getAllItems(){
+        return items;
+    }
+
     public Item addItem(Item item){
         Item newItem = items.put(item.getId(), item);
         return newItem;
@@ -44,7 +48,6 @@ public class ItemRepository {
     public void adjustAmountOfItemInStock(String itemId, int amount){
         if(getItemById(itemId).getAmount() >= amount){
             getItemById(itemId).setAmount(getItemById(itemId).getAmount() - amount);
-            System.out.println(getItemById(itemId).getAmount());
         } else {
             throw new NotAvailableStockException(getItemById(itemId).getName() +
                     " is not available in stock. Requested:" + amount +

@@ -18,4 +18,5 @@ public class User {
     Address address;
     Phone phone;
     UserRole role;
+    String password;
 }

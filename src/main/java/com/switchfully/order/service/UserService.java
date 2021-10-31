@@ -50,4 +50,5 @@ public class UserService {
             throw new AuthorizationException("You are not authorized as an admin.");
         }
     }
+
 }
