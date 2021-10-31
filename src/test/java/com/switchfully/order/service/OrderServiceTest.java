@@ -59,7 +59,7 @@ class OrderServiceTest {
     }
 
     @Test
-    @DisplayName("If create order request, then returned order should contain orderID, customerId, item groups and total price")
+    @DisplayName("when create order request, then returned order should contain orderID, customerId, item groups and total price")
     void givenListOfItemGroups_whenCreateOrder_ThenReturnCreatedOrder() {
         //GIVEN
         List<CreateItemGroupResponse> expectedItemGroupResponse = List.of(
@@ -76,7 +76,7 @@ class OrderServiceTest {
     }
 
     @Test
-    @DisplayName("If create order request, then returned stock number of ordered items is updated")
+    @DisplayName("when create order request, then the amount of items in stock is updated")
     void givenListOfItemGroups_whenCreateOrder_ThenStockOfOrderedItemsUpdated() {
         //WHEN
         orderService.createOrder(itemGroupRequests, DEFAULT_CUSTOMER_ID);
