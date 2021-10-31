@@ -32,6 +32,10 @@ public class ItemRepository {
                         new Price(Currency.EUR, BigDecimal.valueOf(200.5)), 1, UrgencyIndicator.STOCK_LOW));
     }
 
+    public HashMap<String, Item> getAllItems(){
+        return items;
+    }
+
     public Item addItem(Item item){
         Item newItem = items.put(item.getId(), item);
         return newItem;
