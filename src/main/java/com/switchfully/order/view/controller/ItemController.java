@@ -1,10 +1,10 @@
 package com.switchfully.order.view.controller;
 
 import com.sun.istack.NotNull;
-import com.switchfully.order.exception.AuthorizationException;
 import com.switchfully.order.model.dto.CreateItemRequest;
 import com.switchfully.order.model.dto.CreateItemResponse;
-import com.switchfully.order.model.entity.user.UserRole;
+import com.switchfully.order.model.dto.UpdateItemRequest;
+import com.switchfully.order.model.dto.UpdateItemResponse;
 import com.switchfully.order.service.ItemService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -24,9 +24,17 @@ public class ItemController {
 
     @PostMapping(consumes = "application/json", produces = "application/json")
     public ResponseEntity<CreateItemResponse> createNewItem(@RequestBody @NotNull CreateItemRequest request,
-                                                            @RequestHeader(value = "id") String userId) {
-        logger.info("createNewItem method is called in Customer Controller. User Id: " + userId);
+                                                            @RequestHeader(value = "id") String adminId) {
+        logger.info("createNewItem method is called in Item Controller. Admin Id: " + adminId);
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(itemService.addItem(request, userId));
+                .body(itemService.addItem(request, adminId));
+    }
+
+    @PutMapping(consumes = "application/json", produces = "application/json")
+    public ResponseEntity<UpdateItemResponse> updateItem(@RequestBody @NotNull UpdateItemRequest request,
+                                                            @RequestHeader(value = "id") String adminId) {
+        logger.info("updateItem method is called in Item Controller. Admin Id: " + adminId);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(itemService.updateItem(request, adminId));
     }
 }

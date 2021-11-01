@@ -12,7 +12,7 @@ import lombok.experimental.FieldDefaults;
 @Setter
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class CreateItemResponse {
+public class UpdateItemResponse {
 
     String id;
     String name;

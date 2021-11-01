@@ -1,8 +1,6 @@
 package com.switchfully.order.service;
 
-import com.switchfully.order.model.dto.CreateItemRequest;
-import com.switchfully.order.model.dto.CreateItemResponse;
-import com.switchfully.order.model.dto.CreateItemGroupRequest;
+import com.switchfully.order.model.dto.*;
 import com.switchfully.order.model.entity.item.Item;
 import com.switchfully.order.repository.ItemRepository;
 import com.switchfully.order.service.mapper.ItemMapper;
@@ -14,7 +12,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -26,12 +23,22 @@ public class ItemService {
     final ItemMapper itemMapper;
     final Logger logger = LoggerFactory.getLogger(ItemService.class);
 
-    public CreateItemResponse addItem(CreateItemRequest createItemRequest, String userId){
-        userService.assertAuthorizedAdmin(userId);
+    public CreateItemResponse addItem(CreateItemRequest createItemRequest, String adminId){
+        userService.assertAuthorizedAdmin(adminId);
+
         Item newItem = itemMapper.toItem(createItemRequest);
         itemRepository.addItem(newItem);
         logger.info("New item is created. Item ID: " + newItem.getId());
-        return itemMapper.toItemResponse(newItem);
+        return itemMapper.toCreateItemResponse(newItem);
+    }
+
+    public UpdateItemResponse updateItem(UpdateItemRequest updateItemRequest, String adminId){
+        userService.assertAuthorizedAdmin(adminId);
+
+        Item itemToBeUpdated = itemRepository.getItemById(updateItemRequest.getId());
+        Item updatedItem = itemMapper.toItem(itemToBeUpdated, updateItemRequest);
+        itemRepository.addItem(updatedItem);
+        return itemMapper.toUpdateItemResponse(updatedItem);
     }
 
     public boolean isStockAvailable(CreateItemGroupRequest createItemGroupRequest) {
@@ -41,8 +48,7 @@ public class ItemService {
     }
 
     public void adjustAmountOfItemsInStock(HashMap<String, Integer> orderedItemGroups){
-        orderedItemGroups.entrySet()
-                .forEach(itemGroup -> itemRepository.adjustAmountOfItemInStock(itemGroup.getKey(), itemGroup.getValue()));
+        orderedItemGroups.forEach((key, value) -> itemRepository.adjustAmountOfItemInStock(key, value));
     }
 
     public Item getItemById(String itemId){
