@@ -45,6 +45,7 @@ public class ItemRepository {
         return items.get(itemId);
     }
 
+    // TODO check amount is bigger than 0, add test case
     public void adjustAmountOfItemInStock(String itemId, int amount){
         if(getItemById(itemId).getAmount() >= amount){
             getItemById(itemId).setAmount(getItemById(itemId).getAmount() - amount);
