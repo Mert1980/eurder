@@ -23,10 +23,10 @@ public class OrderController {
 
     @PostMapping(consumes = "application/json", produces = "application/json")
     public ResponseEntity<CreateOrderResponse> createNewOrder(@RequestBody @NotNull List<CreateItemGroupRequest> request,
-                                                             @RequestHeader(value = "id") String userId) {
-        logger.info("createNewOrder method is called in Customer Controller. User Id: " + userId);
+                                                             @RequestHeader(value = "id") String customerId) {
+        logger.info("createNewOrder method is called in Customer Controller. User Id: " + customerId);
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(orderService.createOrder(request, userId));
+                .body(orderService.createOrder(request, customerId));
     }
 }
 

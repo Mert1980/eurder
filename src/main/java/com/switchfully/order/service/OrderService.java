@@ -28,12 +28,12 @@ public class OrderService {
     final ItemService itemService;
     final Logger logger = LoggerFactory.getLogger(OrderService.class);
 
-    public CreateOrderResponse createOrder(List<CreateItemGroupRequest> createItemGroupRequests, String userId){
-        userService.assertAuthorizedCustomer(userId);
+    public CreateOrderResponse createOrder(List<CreateItemGroupRequest> createItemGroupRequests, String customerId){
+        userService.assertAuthorizedCustomer(customerId);
 
         Order newOrder = orderMapper.toOrder(createItemGroupRequests);
 
-        newOrder.setCustomer(userService.getCustomer(userId));
+        newOrder.setCustomer(userService.getCustomer(customerId));
         newOrder.setTotalPrice(calculateTotalPrice(createItemGroupRequests));
 
         logger.debug("Created order: " + newOrder);

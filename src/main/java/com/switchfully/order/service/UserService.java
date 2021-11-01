@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.security.auth.message.AuthException;
+import java.util.List;
 
 @Service
 public class UserService {
@@ -37,8 +38,19 @@ public class UserService {
         return userRepository.getCustomer(customerId);
     }
 
-    public void assertAuthorizedCustomer(String userId) {
-        if(!userRepository.getCustomer(userId).getRole().name().equalsIgnoreCase("CUSTOMER")){
+    public CreateCustomerResponse getCustomerResponse(String customerId, String adminId){
+        assertAuthorizedAdmin(adminId);
+        System.out.println(customerId);
+        return userMapper.toCreateCustomerResponse(getCustomer(customerId));
+    }
+
+    public List<CreateCustomerResponse> getAllCustomers(String adminId){
+        assertAuthorizedAdmin(adminId);
+        return userMapper.toCreateCustomerResponse(userRepository.getAllCustomers());
+    }
+
+    public void assertAuthorizedCustomer(String customerId) {
+        if(!userRepository.getCustomer(customerId).getRole().name().equalsIgnoreCase("CUSTOMER")){
             logger.error("Unauthorized request to create a customer.");
             throw new AuthorizationException("You are not authorized as a customer.");
         }

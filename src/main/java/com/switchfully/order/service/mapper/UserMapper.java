@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Component
 public class UserMapper {
@@ -30,7 +32,7 @@ public class UserMapper {
 
     public CreateCustomerResponse toCreateCustomerResponse(User user){
         return CreateCustomerResponse.builder()
-                .id(UUID.randomUUID().toString())
+                .id(user.getId())
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
                 .email(user.getEmail())
@@ -40,4 +42,9 @@ public class UserMapper {
                 .build();
     }
 
+    public List<CreateCustomerResponse> toCreateCustomerResponse(List<User> customers) {
+        return customers.stream()
+                .map(this::toCreateCustomerResponse)
+                .collect(Collectors.toList());
+    }
 }

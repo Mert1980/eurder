@@ -8,8 +8,11 @@ import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Repository
 @Getter
@@ -57,5 +60,9 @@ public class UserRepository {
         return users.values().stream()
                 .filter(user -> user.getEmail().equals(email))
                 .findFirst();
+    }
+
+    public List<User> getAllCustomers(){
+        return new ArrayList<>(users.values());
     }
 }
