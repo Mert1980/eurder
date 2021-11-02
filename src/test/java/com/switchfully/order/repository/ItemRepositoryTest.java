@@ -18,6 +18,7 @@ import java.math.BigDecimal;
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 @DisplayName("Items Repository Test")
@@ -54,12 +55,12 @@ class ItemRepositoryTest {
     @Test
     void given_Two_ItemsInStock_when_Two_IsOrdered_ThenRemainingAmountInStockIs_Zero() {
         //GIVEN
-        String itemIdOrdered = "d47ffb0f-7779-43ca-8606-f5d6c7097f1d";
+        String itemId = "d47ffb0f-7779-43ca-8606-f5d6c7097f1d";
         int amountOrdered = 2;
 
         //WHEN
-        itemRepository.adjustAmountOfItemInStock(itemIdOrdered, amountOrdered);
-        int amountOfItemInStockAfterOrder = itemRepository.getItemById(itemIdOrdered).getAmount();
+        itemRepository.adjustAmountOfItemInStock(itemId, amountOrdered);
+        int amountOfItemInStockAfterOrder = itemRepository.getItemById(itemId).getAmount();
 
         //THEN
         assertThat(amountOfItemInStockAfterOrder).isEqualTo(0);
@@ -68,14 +69,30 @@ class ItemRepositoryTest {
     @Test
     void given_Two_ItemsInStock_when_Three_IsOrdered_ThenThrowsNotAvailableStockException() {
         //GIVEN
-        String itemIdOrdered = "d47ffb0f-7779-43ca-8606-f5d6c7097f1d";
+        String itemId = "d47ffb0f-7779-43ca-8606-f5d6c7097f1d";
         int amountOrdered = 3;
 
         //WHEN
         NotAvailableStockException exception = assertThrows(NotAvailableStockException.class,
-                ()-> itemRepository.adjustAmountOfItemInStock(itemIdOrdered,amountOrdered));
+                ()-> itemRepository.adjustAmountOfItemInStock(itemId,amountOrdered));
 
         //THEN
         assertEquals("Grill is not available in stock. Requested:3 Available:2", exception.getMessage());
+    }
+
+    @Test
+    void given_Two_ItemsInStock_when_Zero_IsOrdered_ThenThrowsIllegalArgumentException() {
+        //GIVEN
+        String itemId = "d47ffb0f-7779-43ca-8606-f5d6c7097f1d";
+        int amountOrdered = 0;
+
+        //WHEN
+        Exception exception = assertThrows(IllegalArgumentException.class,
+                ()-> itemRepository.adjustAmountOfItemInStock(itemId,amountOrdered));
+        String expectedMessage = "Requested amount should not be 0 or smaller than 0. Requested:0";
+        String actualMessage = exception.getMessage();
+
+        //THEN
+        assertTrue(actualMessage.contains(expectedMessage));
     }
 }

@@ -45,11 +45,21 @@ public class ItemRepository {
         return items.get(itemId);
     }
 
-    // TODO check amount is bigger than 0, add test case
     public void adjustAmountOfItemInStock(String itemId, int amount){
-        if(getItemById(itemId).getAmount() >= amount){
-            getItemById(itemId).setAmount(getItemById(itemId).getAmount() - amount);
-        } else {
+        assertAmountIsBiggerThanZero(amount);
+        assertAvailableStockLevel(itemId, amount);
+
+        getItemById(itemId).setAmount(getItemById(itemId).getAmount() - amount);
+    }
+
+    private void assertAmountIsBiggerThanZero(int amount) {
+        if(amount < 1){
+            throw new IllegalArgumentException("Requested amount should not be 0 or smaller than 0. Requested:" + amount);
+        }
+    }
+
+    private void assertAvailableStockLevel(String itemId, int amount) {
+        if(getItemById(itemId).getAmount() < amount){
             throw new NotAvailableStockException(getItemById(itemId).getName() +
                     " is not available in stock. Requested:" + amount +
                     " Available:" + getItemById(itemId).getAmount());

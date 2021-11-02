@@ -21,7 +21,7 @@ public class UserExceptionHandler {
     }
 
     @ExceptionHandler(UsernameNotFoundException.class)
-    protected void UsernameNotFoundException(UsernameNotFoundException exception, HttpServletResponse response) throws Exception {
+    protected void usernameNotFoundException(UsernameNotFoundException exception, HttpServletResponse response) throws Exception {
         logger.error(exception.getMessage());
         response.sendError(HttpStatus.FORBIDDEN.value(), exception.getMessage());
     }
