@@ -12,6 +12,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 
 import java.math.BigDecimal;
 
@@ -78,21 +79,5 @@ class ItemRepositoryTest {
 
         //THEN
         assertEquals("Grill is not available in stock. Requested:3 Available:2", exception.getMessage());
-    }
-
-    @Test
-    void given_Two_ItemsInStock_when_Zero_IsOrdered_ThenThrowsIllegalArgumentException() {
-        //GIVEN
-        String itemId = "d47ffb0f-7779-43ca-8606-f5d6c7097f1d";
-        int amountOrdered = 0;
-
-        //WHEN
-        Exception exception = assertThrows(IllegalArgumentException.class,
-                ()-> itemRepository.adjustAmountOfItemInStock(itemId,amountOrdered));
-        String expectedMessage = "Requested amount should not be 0 or smaller than 0. Requested:0";
-        String actualMessage = exception.getMessage();
-
-        //THEN
-        assertTrue(actualMessage.contains(expectedMessage));
     }
 }

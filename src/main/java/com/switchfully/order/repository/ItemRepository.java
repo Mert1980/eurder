@@ -9,12 +9,14 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
 
-@Repository
+@Service
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -46,16 +48,9 @@ public class ItemRepository {
     }
 
     public void adjustAmountOfItemInStock(String itemId, int amount){
-        assertAmountIsBiggerThanZero(amount);
         assertAvailableStockLevel(itemId, amount);
 
         getItemById(itemId).setAmount(getItemById(itemId).getAmount() - amount);
-    }
-
-    private void assertAmountIsBiggerThanZero(int amount) {
-        if(amount < 1){
-            throw new IllegalArgumentException("Requested amount should not be 0 or smaller than 0. Requested:" + amount);
-        }
     }
 
     private void assertAvailableStockLevel(String itemId, int amount) {

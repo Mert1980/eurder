@@ -30,6 +30,7 @@ public class OrderService {
 
     public CreateOrderResponse createOrder(List<CreateItemGroupRequest> createItemGroupRequests, String customerId){
         userService.assertAuthorizedCustomer(customerId);
+        assertValidCreateItemRequests(createItemGroupRequests);
 
         Order newOrder = orderMapper.toOrder(createItemGroupRequests);
 
@@ -45,6 +46,16 @@ public class OrderService {
         itemService.adjustAmountOfItemsInStock(newOrder.getItemGroups());
 
         return orderResponse;
+    }
+
+    private void assertValidCreateItemRequests(List<CreateItemGroupRequest> createItemGroupRequests) {
+        createItemGroupRequests.forEach(this::assertAmountIsBiggerThanZero);
+    }
+
+    private void assertAmountIsBiggerThanZero(CreateItemGroupRequest request) {
+        if(request.getAmount() < 1){
+            throw new IllegalArgumentException("Requested amount should not be 0 or smaller than 0. Requested:" + request.getAmount());
+        }
     }
 
     private Price calculateTotalPrice(List<CreateItemGroupRequest> createItemGroupRequests) {

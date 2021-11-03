@@ -17,9 +17,9 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 @DisplayName("Order Service Test")
@@ -42,10 +42,6 @@ class OrderServiceTest {
     void beforeEach(){
         itemGroupRequests = List.of(new CreateItemGroupRequest("d47ffb0f-7779-43ca-8606-f5d6c7097f1d", 2),
                 new CreateItemGroupRequest("d47ffb0f-7779-43ca-8606-f5d6c7097f1e", 1));
-
-        CreateOrderRequest createOrderRequest = new CreateOrderRequest();
-
-        itemGroupRequests.forEach(request -> createOrderRequest.getItemGroups().add(request));
     }
 
     @AfterEach
@@ -84,6 +80,21 @@ class OrderServiceTest {
         //THEN
         assertEquals(0, itemService.getItemById("d47ffb0f-7779-43ca-8606-f5d6c7097f1d").getAmount());
         assertEquals(0, itemService.getItemById("d47ffb0f-7779-43ca-8606-f5d6c7097f1e").getAmount());
+    }
 
+    @Test
+    @DisplayName("when create order with zero amount of items, then throws IllegalArgumentException")
+    void given_Two_ItemsInStock_when_Zero_IsOrdered_ThenThrowsIllegalArgumentException() {
+        //GIVEN
+        itemGroupRequests.forEach(request -> request.setAmount(0));
+
+        //WHEN
+        Exception exception = assertThrows(IllegalArgumentException.class,
+                ()-> orderService.createOrder(itemGroupRequests, DEFAULT_CUSTOMER_ID));
+        String expectedMessage = "Requested amount should not be 0 or smaller than 0. Requested:0";
+        String actualMessage = exception.getMessage();
+
+        //THEN
+        assertTrue(actualMessage.contains(expectedMessage));
     }
 }
