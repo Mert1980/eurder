@@ -28,10 +28,10 @@ public class ItemRepository {
         items = new HashMap<>();
         items.put("d47ffb0f-7779-43ca-8606-f5d6c7097f1d",
                 new Item("d47ffb0f-7779-43ca-8606-f5d6c7097f1d", "Grill", "Multi Functional",
-                        new Price(Currency.EUR, BigDecimal.valueOf(100.5)), 2, UrgencyIndicator.STOCK_HIGH));
+                        new Price(Currency.EUR, BigDecimal.valueOf(100.5)), 4, UrgencyIndicator.STOCK_HIGH));
         items.put("d47ffb0f-7779-43ca-8606-f5d6c7097f1e",
                 new Item("d47ffb0f-7779-43ca-8606-f5d6c7097f1e", "Microwave", "Black",
-                        new Price(Currency.EUR, BigDecimal.valueOf(200.5)), 1, UrgencyIndicator.STOCK_LOW));
+                        new Price(Currency.EUR, BigDecimal.valueOf(200.5)), 2, UrgencyIndicator.STOCK_LOW));
     }
 
     public HashMap<String, Item> getAllItems(){

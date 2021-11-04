@@ -7,7 +7,10 @@ import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
 @Getter
@@ -24,5 +27,9 @@ public class OrderRepository {
     public Order createOrder(Order order){
         Order newOrder = orders.put(order.getId(), order);
         return newOrder;
+    }
+
+    public List<Order> getAllOrders(){
+        return new ArrayList<>(orders.values());
     }
 }

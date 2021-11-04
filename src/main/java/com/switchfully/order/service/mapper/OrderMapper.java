@@ -1,14 +1,16 @@
 package com.switchfully.order.service.mapper;
 
-import com.switchfully.order.model.dto.CreateOrderResponse;
-import com.switchfully.order.model.dto.CreateItemGroupRequest;
-import com.switchfully.order.model.dto.CreateItemGroupResponse;
+import com.switchfully.order.model.dto.*;
 import com.switchfully.order.model.entity.Order;
+import com.switchfully.order.model.entity.item.Currency;
+import com.switchfully.order.model.entity.item.Price;
 import com.switchfully.order.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -50,6 +52,40 @@ public class OrderMapper {
                 .itemId(createItemGroupRequest.getItemId())
                 .amount(createItemGroupRequest.getAmount())
                 .shippingDate(itemService.isStockAvailable(createItemGroupRequest) ? LocalDate.now().plusDays(1) : LocalDate.now().plusDays(7))
+                .build();
+    }
+
+    public CreateReportResponse toCreateReportResponse(List<Order> orders) {
+        List<CreateOrderReportResponse> orderReportList = new ArrayList<>();
+
+        orders.forEach(order -> orderReportList.add(toCreateOrderReportResponse(order)));
+        double totalPrice = orders.stream().mapToDouble(order -> order.getTotalPrice().getAmount().doubleValue()).sum();
+        Currency currency = orders.stream().findFirst().get().getTotalPrice().getCurrency();
+
+        return CreateReportResponse.builder()
+                .orders(orderReportList)
+                .totalPrice(new Price(currency, BigDecimal.valueOf(totalPrice)))
+                .build();
+    }
+
+    private CreateOrderReportResponse toCreateOrderReportResponse(Order order) {
+        List<CreateItemGroupReportResponse> itemGroupReportList = new ArrayList<>();
+        order.getItemGroups().forEach
+                ((itemId, amount) -> itemGroupReportList.add(toCreateItemGroupReportResponse(itemId, amount)));
+
+        return CreateOrderReportResponse.builder()
+                .id(order.getId())
+                .itemGroups(itemGroupReportList)
+                .totalPrice(order.getTotalPrice())
+                .build();
+    }
+
+    private CreateItemGroupReportResponse toCreateItemGroupReportResponse(String itemId, Integer amount) {
+        return CreateItemGroupReportResponse.builder()
+                .itemName(itemService.getItemById(itemId).getName())
+                .amountOfOrderedItems(amount)
+                .totalPrice(new Price(itemService.getItemById(itemId).getPrice().getCurrency(),
+                        BigDecimal.valueOf(itemService.getItemById(itemId).getPrice().getAmount().doubleValue() * amount)))
                 .build();
     }
 }

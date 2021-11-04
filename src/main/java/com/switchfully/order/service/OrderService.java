@@ -2,6 +2,7 @@ package com.switchfully.order.service;
 
 import com.switchfully.order.model.dto.CreateItemGroupRequest;
 import com.switchfully.order.model.dto.CreateOrderResponse;
+import com.switchfully.order.model.dto.CreateReportResponse;
 import com.switchfully.order.model.entity.Order;
 import com.switchfully.order.model.entity.item.Currency;
 import com.switchfully.order.model.entity.item.Price;
@@ -12,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -48,6 +50,14 @@ public class OrderService {
         return orderResponse;
     }
 
+    public ResponseEntity<CreateReportResponse> createReport(String customerId) {
+        userService.assertAuthorizedCustomer(customerId);
+        if(orderRepository.getAllOrders().isEmpty()){
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(orderMapper.toCreateReportResponse(orderRepository.getAllOrders()));
+    }
+
     private void assertValidCreateItemRequests(List<CreateItemGroupRequest> createItemGroupRequests) {
         createItemGroupRequests.forEach(this::assertAmountIsBiggerThanZero);
     }
@@ -66,4 +76,6 @@ public class OrderService {
 
         return new Price(Currency.EUR, BigDecimal.valueOf(totalPrice));
     }
+
+
 }

@@ -24,9 +24,15 @@ public class OrderController {
     @PostMapping(consumes = "application/json", produces = "application/json")
     public ResponseEntity<CreateOrderResponse> createNewOrder(@RequestBody @NotNull List<CreateItemGroupRequest> request,
                                                              @RequestHeader(value = "id") String customerId) {
-        logger.info("createNewOrder method is called in Customer Controller. User Id: " + customerId);
+        logger.info("createNewOrder method is called in Order Controller. User Id: " + customerId);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(orderService.createOrder(request, customerId));
+    }
+
+    @GetMapping(produces = "application/json")
+    public ResponseEntity<CreateReportResponse> viewReportOfOrders(@RequestHeader(value = "id") String customerId) {
+        logger.info("viewReportOfOrders method is called in Order Controller. User Id: " + customerId);
+        return orderService.createReport(customerId);
     }
 }
 
