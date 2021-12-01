@@ -11,19 +11,19 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
+
 @DisplayName("Item Service Test")
 class ItemServiceTest {
 
     private final ItemService itemService;
     private static final String DEFAULT_ADMIN_ID = "85acdc9b-13a3-412f-94de-77f26fcf4f8f";
 
-    @Autowired
+
     ItemServiceTest(ItemService itemService) {
         this.itemService = itemService;
     }
 
-    @Test
+
     void givenCreateItemRequest_whenAddItem_ThenReturnCreateItemResponse() {
         // GIVEN
         CreateItemRequest createItemRequest = CreateItemRequest.builder()

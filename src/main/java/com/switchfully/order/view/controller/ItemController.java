@@ -14,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@CrossOrigin
 @RequiredArgsConstructor
 @RequestMapping(path = "/items")
 public class ItemController {
@@ -22,9 +21,10 @@ public class ItemController {
     private final ItemService itemService;
     private final Logger logger = LoggerFactory.getLogger(ItemController.class);
 
-    @PostMapping(consumes = "application/json", produces = "application/json")
+    @PostMapping
     public ResponseEntity<CreateItemResponse> createNewItem(@RequestBody @NotNull CreateItemRequest request,
                                                             @RequestHeader(value = "id") String adminId) {
+        System.out.println(adminId);
         logger.info("createNewItem method is called in Item Controller. Admin Id: " + adminId);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(itemService.addItem(request, adminId));

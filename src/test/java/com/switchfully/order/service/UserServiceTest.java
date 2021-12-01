@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
+
 @DisplayName("User Controller Test")
 class UserServiceTest {
 
@@ -25,7 +25,7 @@ class UserServiceTest {
         this.userService = userService;
     }
 
-    @Test
+
     void givenCreateCustomerDtoByUnregisteredCustomer_whenCreateCustomerRequest_ThenReturnCreateCustomerResponse() {
         // GIVEN
         CreateCustomerRequest createCustomerRequest = CreateCustomerRequest.builder()

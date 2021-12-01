@@ -21,7 +21,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@SpringBootTest
+
 @DisplayName("Order Service Test")
 class OrderServiceTest {
 
@@ -31,20 +31,20 @@ class OrderServiceTest {
     private List<CreateItemGroupRequest> itemGroupRequests;
     private static final String DEFAULT_CUSTOMER_ID = "85acdc9b-13a3-412f-94de-77f26fcf4f9c";
 
-    @Autowired
+
     OrderServiceTest(OrderService orderService, ItemService itemService, ItemRepository itemRepository) {
         this.orderService = orderService;
         this.itemService = itemService;
         this.itemRepository = itemRepository;
     }
 
-    @BeforeEach
+
     void beforeEach(){
         itemGroupRequests = List.of(new CreateItemGroupRequest("d47ffb0f-7779-43ca-8606-f5d6c7097f1d", 2),
                 new CreateItemGroupRequest("d47ffb0f-7779-43ca-8606-f5d6c7097f1e", 1));
     }
 
-    @AfterEach
+
     void afterEach(){
         itemRepository.getAllItems().put("d47ffb0f-7779-43ca-8606-f5d6c7097f1d",
                 new Item("d47ffb0f-7779-43ca-8606-f5d6c7097f1d", "Grill", "Multi Functional",
@@ -54,7 +54,7 @@ class OrderServiceTest {
                         new Price(Currency.EUR, BigDecimal.valueOf(200.5)), 1, UrgencyIndicator.STOCK_LOW));
     }
 
-    @Test
+
     @DisplayName("when create order request, then returned order should contain orderID, customerId, item groups and total price")
     void givenListOfItemGroups_whenCreateOrder_ThenReturnCreatedOrder() {
         //GIVEN
@@ -71,7 +71,7 @@ class OrderServiceTest {
         assertEquals(401.5, actual.getPrice().getAmount().doubleValue());
     }
 
-    @Test
+
     @DisplayName("when create order request, then the amount of items in stock is updated")
     void givenListOfItemGroups_whenCreateOrder_ThenStockOfOrderedItemsUpdated() {
         //WHEN
@@ -82,7 +82,7 @@ class OrderServiceTest {
         assertEquals(0, itemService.getItemById("d47ffb0f-7779-43ca-8606-f5d6c7097f1e").getAmount());
     }
 
-    @Test
+
     @DisplayName("when create order with zero amount of items, then throws IllegalArgumentException")
     void given_Two_ItemsInStock_when_Zero_IsOrdered_ThenThrowsIllegalArgumentException() {
         //GIVEN

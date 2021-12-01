@@ -64,7 +64,7 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling()
                 .and()
                 .authorizeRequests()
-                .antMatchers("/users/**", "/items/**", "/orders/**")
+                .antMatchers("/users/**")
                     .permitAll()
                 .anyRequest()
                 .authenticated();

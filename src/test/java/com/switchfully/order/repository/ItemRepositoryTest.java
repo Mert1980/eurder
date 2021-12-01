@@ -21,13 +21,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@SpringBootTest
+
 @DisplayName("Items Repository Test")
 class ItemRepositoryTest {
 
     private final ItemRepository itemRepository;
 
-    @Autowired
+
     ItemRepositoryTest(ItemRepository itemRepository) {
         this.itemRepository = itemRepository;
     }
@@ -39,7 +39,7 @@ class ItemRepositoryTest {
                         new Price(Currency.EUR, BigDecimal.valueOf(100.5)), 2, UrgencyIndicator.STOCK_HIGH));
     }
 
-    @Test
+
     void given_Two_ItemsInStock_when_One_IsOrdered_ThenRemainingAmountInStockIs_One() {
         //GIVEN
         String itemIdOrdered = "d47ffb0f-7779-43ca-8606-f5d6c7097f1d";
@@ -53,7 +53,7 @@ class ItemRepositoryTest {
         assertThat(amountOfItemInStockAfterOrder).isEqualTo(1);
     }
 
-    @Test
+
     void given_Two_ItemsInStock_when_Two_IsOrdered_ThenRemainingAmountInStockIs_Zero() {
         //GIVEN
         String itemId = "d47ffb0f-7779-43ca-8606-f5d6c7097f1d";
@@ -67,7 +67,7 @@ class ItemRepositoryTest {
         assertThat(amountOfItemInStockAfterOrder).isEqualTo(0);
     }
 
-    @Test
+
     void given_Two_ItemsInStock_when_Three_IsOrdered_ThenThrowsNotAvailableStockException() {
         //GIVEN
         String itemId = "d47ffb0f-7779-43ca-8606-f5d6c7097f1d";
